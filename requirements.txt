@@ -1,0 +1,7 @@
+flask
+flask-cors
+requests
+python-dotenv
+openai
+google-genai
+elevenlabs

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socrates AI - Login</title>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Socrates AI - Login</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+
+<body>
+    <!-- Error Popup -->
+    <div id="errorPopup" class="error-popup">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {{ messages[0] }}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="container">
+        <h1>Socrates AI</h1>
+
+        <!-- Initial View -->
+        <div id="initialView" class="button-group">
+            <button class="btn btn-primary" onclick="showForm('login')">Login</button>
+            <button class="btn btn-secondary" onclick="showForm('signup')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="form-container" action="/login" method="POST">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <button type="button" class="back-btn" onclick="showForm('initial')">Back</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" class="form-container" action="/signup" method="POST">
+            <div class="input-group">
+                <label>First Name</label>
+                <input type="text" name="first_name" required placeholder="First Name">
+            </div>
+            <div class="input-group">
+                <label>Last Name</label>
+                <input type="text" name="last_name" required placeholder="Last Name">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="Email Address">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Create Password">
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-secondary">Sign Up</button>
+            </div>
+            <button type="button" class="back-btn" onclick="showForm('initial')">Back</button>
+        </form>
+    </div>
+
+    <script>
+        function showForm(type) {
+            document.getElementById('initialView').style.display = 'none';
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('signupForm').classList.remove('active');
+
+            if (type === 'initial') {
+                document.getElementById('initialView').style.display = 'flex';
+            } else if (type === 'login') {
+                document.getElementById('loginForm').classList.add('active');
+            } else if (type === 'signup') {
+                document.getElementById('signupForm').classList.add('active');
+            }
+        }
+
+        // Show error popup if exists
+        const errorPopup = document.getElementById('errorPopup');
+        if (errorPopup.innerText.trim() !== "") {
+            errorPopup.classList.add('show');
+            setTimeout(() => {
+                errorPopup.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
