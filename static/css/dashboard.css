@@ -1,0 +1,294 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #78B9B5, #0F828C, #065084, #320A6B);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
+  overflow: hidden;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Greeting Container - Initial Animation */
+.greeting-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.greeting-container.fade-out {
+  opacity: 0;
+}
+
+.greeting-text {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 100;
+  opacity: 0;
+  /* Initially hidden for animation */
+  transition: opacity 0.8s ease;
+}
+
+.dashboard-header.fade-in {
+  opacity: 1;
+}
+
+.header-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+/* Dashboard Container - Main Interface */
+.dashboard-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  opacity: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Center vertically */
+  height: 100vh;
+  /* Full height for centering */
+  gap: 3rem;
+}
+
+.dashboard-container.fade-in {
+  display: flex;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Main Title Animation */
+@keyframes titleGlow {
+  from {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  to {
+    text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.4),
+      0 0 30px rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Debate Input Section */
+.debate-input-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+}
+
+.debate-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.debate-input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.debate-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Shake animation for empty input */
+.debate-input.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Start Debate Button */
+.start-debate-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 15px;
+  background: white;
+  color: #065084;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.start-debate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background: #f0f0f0;
+}
+
+.start-debate-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Logout Button */
+.logout-btn {
+  /* Position handled by header flexbox */
+  padding: 0.8rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .greeting-text {
+    font-size: 2.5rem;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .debate-input {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .start-debate-btn {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .logout-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .dashboard-header {
+    padding: 1rem;
+  }
+}

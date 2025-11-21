@@ -5,65 +5,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Socrates AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #ffffff;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .container {
-      text-align: center;
-    }
-
-    .greeting {
-      font-size: 3rem;
-      font-weight: 600;
-      background: linear-gradient(to right, #78B9B5, #0F828C);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      border-right: 4px solid #78B9B5;
-      display: inline-block;
-      padding-right: 5px;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 
 <body>
-  <div class="container">
-    <div class="greeting" id="greeting"></div>
+  <!-- Greeting Animation Container -->
+  <div class="greeting-container" id="greetingContainer">
+    <h1 class="greeting-text" id="greetingText"></h1>
+  </div>
+
+  <!-- Header -->
+  <header class="dashboard-header" id="dashboardHeader">
+    <h1 class="header-title">Socrates AI</h1>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+  </header>
+
+  <!-- Main Dashboard Container (hidden initially) -->
+  <div class="dashboard-container" id="dashboardContainer">
+    <div class="debate-input-section">
+      <div class="input-wrapper">
+        <input type="text" id="debateTopic" class="debate-input" placeholder="Enter your debate topic..."
+          autocomplete="off" />
+        <button class="start-debate-btn" id="startDebateBtn">
+          Start Debate
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
-    const text = "Hello, {{ first_name }} {{ last_name }}";
-    const greetingElement = document.getElementById('greeting');
+    const firstName = "{{ first_name }}";
+    const lastName = "{{ last_name }}";
+    const greetingText = document.getElementById('greetingText');
+    const greetingContainer = document.getElementById('greetingContainer');
+    const dashboardContainer = document.getElementById('dashboardContainer');
+    const dashboardHeader = document.getElementById('dashboardHeader');
 
-    let i = 0;
-    const speed = 100; // ms per char
+    // Typewriter effect function
+    function typeWriter(text, element, speed = 100) {
+      return new Promise((resolve) => {
+        let i = 0;
+        element.textContent = '';
 
-    function typeWriter() {
-      if (i < text.length) {
-        greetingElement.textContent += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, speed);
-      } else {
-        // Stop blinking cursor after a while
-        setTimeout(() => {
-          greetingElement.style.borderRight = 'none';
-        }, 1000);
-      }
+        function type() {
+          if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+          } else {
+            resolve();
+          }
+        }
+
+        type();
+      });
     }
 
-    // Start typing
-    typeWriter();
+    // Delete text effect
+    function deleteText(element, speed = 50) {
+      return new Promise((resolve) => {
+        const text = element.textContent;
+        let i = text.length;
+
+        function deleteChar() {
+          if (i > 0) {
+            element.textContent = text.substring(0, i - 1);
+            i--;
+            setTimeout(deleteChar, speed);
+          } else {
+            resolve();
+          }
+        }
+
+        deleteChar();
+      });
+    }
+
+    // Main animation sequence
+    async function startAnimation() {
+      // Type "Hello [Name]"
+      await typeWriter(`Hello ${firstName}`, greetingText, 80);
+
+      // Pause
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Delete text
+      await deleteText(greetingText, 40);
+
+      // Pause
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // Type "Socrates AI"
+      await typeWriter('Socrates AI', greetingText, 80);
+
+      // Pause
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Fade out greeting and fade in dashboard
+      greetingContainer.classList.add('fade-out');
+
+      setTimeout(() => {
+        greetingContainer.style.display = 'none';
+        dashboardContainer.classList.add('fade-in');
+        dashboardHeader.classList.add('fade-in'); // Also fade in the header
+      }, 500);
+    }
+
+    // Start animation when page loads
+    window.addEventListener('load', startAnimation);
+
+    // Start Debate button functionality
+    document.getElementById('startDebateBtn').addEventListener('click', function () {
+      const topic = document.getElementById('debateTopic').value.trim();
+
+      if (topic === '') {
+        // Add shake animation to input if empty
+        const input = document.getElementById('debateTopic');
+        input.classList.add('shake');
+        setTimeout(() => input.classList.remove('shake'), 500);
+        return;
+      }
+
+      // TODO: Handle debate start logic
+      console.log('Starting debate on topic:', topic);
+      alert('Debate functionality coming soon! Topic: ' + topic);
+    });
+
+    // Allow Enter key to start debate
+    document.getElementById('debateTopic').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        document.getElementById('startDebateBtn').click();
+      }
+    });
   </script>
 </body>
 
